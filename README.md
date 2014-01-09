@@ -11,8 +11,10 @@ des vues.
 Des appels comme avec "secGroups()" sont fait en statiques. Le FontendController
 pourrais être encore mieux intégré dans le cas ou ces méthodes seraient utilisé
 orienté  objet.
+
 Fournir un générateur d'url PHP et Smarty pour lequel on fournis le nom de la route,
 les paramètres et nous retourne le string de l'url.
+
 TODO: Bien vérifier que si aucune vue n'est trouvé: appliquer (si définie comme tel)
 la vue par défaut (travailler avec le paramètre function que seolan met par defaut). 
 
@@ -64,12 +66,12 @@ class MyProject extends XShell
     $this->controller = new FrontendController(self::$roads);
   }
 
-   public function decodeRewriting($url)
+  
+  public function run($parameters)
   {
-    parent::decodeRewriting($url);
-    // On insère notre controlleur dans la reconnaissance de l'url
-    $this->controller->decode($url);
-    return;
+    // On insère notre controlleur dans le point d'entrée 
+    $this->controller->decode(filter_input(INPUT_SERVER, 'REQUEST_URI'));
+    return parent::run($parameters);
   }
 
   function secGroups($function, $group = Null)
