@@ -66,7 +66,6 @@ class MyProject extends XShell
     $this->controller = new FrontendController(self::$roads);
   }
 
-  
   public function run($parameters)
   {
     // On insère notre controlleur dans le point d'entrée 
