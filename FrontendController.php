@@ -21,6 +21,7 @@ class FrontendController
     if (($road = $this->findRoadWithUrl($url)))
     {
       $this->configure($road, $url);
+      return True;
     }
     
     return False;

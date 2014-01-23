@@ -66,11 +66,19 @@ class MyProject extends XShell
     $this->controller = new FrontendController(self::$roads);
   }
 
+  // Si l'url rewriting est désactivé on utilise la méthode run()
   public function run($parameters)
   {
     // On insère notre controlleur dans le point d'entrée 
     $this->controller->decode(filter_input(INPUT_SERVER, 'REQUEST_URI'));
     return parent::run($parameters);
+  }
+
+  // Sinon, si l'url rewritiung est activé on utilise la méthode decodeRewriting()
+  public function decodeRewriting($url)
+  {
+    if (False === $this->controller->decode($url))
+      return parent::decodeRewriting($url);
   }
 
   function secGroups($function, $group = Null)
