@@ -123,6 +123,10 @@ class FrontendController
     {
       $_REQUEST[$road_parameter_id] = $road_parameter_value;
     }
+
+    $_SERVER['REQUEST_URI']="/".$nurl;
+    $GLOBALS['TZR_SELF']='/index.php';
+    $_SERVER['SCRIPT_NAME']='/index.php';
   }
   
   // TODO: Plus élégant
