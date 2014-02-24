@@ -31,7 +31,8 @@ class FrontendController
   {
     if (($road = $this->findRoadWithRoadFunction($url)))
       return $road;
-    
+    if (($road = $this->findRoadWithAlias($url)))
+      return $road;
     if (($road = $this->findRoadWithRoadUrl($url)))
       return $road;
     
@@ -54,6 +55,22 @@ class FrontendController
     return False;
   }
   
+  protected function findRoadWithAlias($url)
+  {
+    if (($query_alias = $this->getUrlAliasParameter($url)))
+    {
+      foreach ($this->roads as $road)
+      {
+        if ($road['alias'] == $query_alias)
+        {
+          return $road;
+        }
+      }
+    }
+    
+    return False;
+  }
+  
   protected function getUrlFunctionParameter($url)
   {
     if (array_key_exists('query', $parsed_url = parse_url($url)))
@@ -61,9 +78,27 @@ class FrontendController
       $parsed_query = array();
       parse_str($parsed_url['query'], $parsed_query);
       
-      if (array_key_exists('_function', $parsed_query))
-      {
+      if (array_key_exists('_function', $parsed_query)){
         return $parsed_query['_function'];
+      }
+      if (array_key_exists('function', $parsed_query)){
+        return $parsed_query['function'];
+      }
+    }
+  }
+  
+  protected function getUrlAliasParameter($url)
+  {
+    if (array_key_exists('query', $parsed_url = parse_url($url)))
+    {
+      $parsed_query = array();
+      parse_str($parsed_url['query'], $parsed_query);
+      
+      if (array_key_exists('alias', $parsed_query)){
+        return $parsed_query['alias'];
+      }
+      if (array_key_exists('_alias', $parsed_query)){
+        return $parsed_query['_alias'];
       }
     }
   }
